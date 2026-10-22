@@ -6,6 +6,9 @@
   },
   "scripts": {
     "start": "node server.js",
-    "test": "mocha"
+    "test": "mocha test/test.js"
+  },
+  "devDependencies": {
+    "socket.io-client": "^4.8.4"
   }
 }
