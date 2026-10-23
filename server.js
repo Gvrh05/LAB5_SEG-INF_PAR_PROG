@@ -24,6 +24,13 @@ io.on('connection', function(socket){
   });
 });
 
-http.listen(port, function(){
-  console.log('listening on *:' + port);
-});
+// el servidor escucha solo cuando se ejecuta directo (node server.js);
+// al ser requerido por pruebas de integracion, las pruebas controlan listen/close
+if (require.main === module) {
+  http.listen(port, function(){
+    console.log('listening on *:' + port);
+  });
+}
+
+// exportado para pruebas de integracion (jest + supertest + socket.io-client)
+module.exports = { app: app, http: http, io: io };
