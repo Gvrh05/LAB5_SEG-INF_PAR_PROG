@@ -130,6 +130,18 @@ describe('Integracion backend: evento real Evento-Mensaje-Server', function () {
     });
   });
 
+  it('URL no permitida (vimeo) -> la validacion la rechaza como video y llega como texto', function () {
+    return emitirYEsperar(
+      { nombre: 'Integracion', mensaje: 'https://vimeo.com/123456', color: '#ffffff' },
+      function (obj) { return obj.mensaje === 'https://vimeo.com/123456'; }
+    ).then(function (obj) {
+      // saneado: NO se genera reproductor, la URL pasa como texto (logica implementada)
+      expect(obj.mensaje).not.toContain('<iframe');
+      expect(obj.mensaje).not.toContain('<img');
+      expect(obj.mensaje).toBe('https://vimeo.com/123456');
+    });
+  });
+
   it('payload que no es JSON -> la validacion lo descarta (mensaje vacio)', function () {
     return emitirYEsperar(
       'not-json {',
